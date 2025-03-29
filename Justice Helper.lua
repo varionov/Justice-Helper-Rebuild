@@ -3,7 +3,7 @@
 script_name("Justice Helper")
 script_description('This is a Cross-platform Lua script helper for Arizona RP players who work in the Ministry of Justice (PD and FBI) ??and the Ministry of Defense (Army)')
 script_author("Varionov")
-script_version("2.1 Free")
+script_version("Rebuild Free 1.0")
 
 require('lib.moonloader')
 require('encoding').default = 'CP1251'
@@ -2787,7 +2787,7 @@ function check_update()
 	sampAddChatMessage('[Justice Helper] {ffffff}Начинаю проверку на наличие обновлений...', message_color)
 	local path = configDirectory .. "/Update_Info.json"
 	os.remove(path)
-	local url = 'https://github.com/varionov/Justice-Helper-Rebuild/blob/main/Update_Info.json'
+	local url = 'https://raw.githubusercontent.com/varionov/Justice-Helper-Rebuild/main/Update_Info.json'
 	if isMonetLoader() then
 		downloadToFile(url, path, function(type, pos, total_size)
 			if type == "finished" then
