@@ -2787,7 +2787,7 @@ function check_update()
 	sampAddChatMessage('[Justice Helper] {ffffff}Начинаю проверку на наличие обновлений...', message_color)
 	local path = configDirectory .. "/Update_Info.json"
 	os.remove(path)
-	local url = 'https://github.com/MTGMODS/lua_scripts/raw/refs/heads/main/justice-helper/Update_Info.json'
+	local url = 'https://github.com/varionov/Justice-Helper-Rebuild/blob/main/Update_Info.json'
 	if isMonetLoader() then
 		downloadToFile(url, path, function(type, pos, total_size)
 			if type == "finished" then
