@@ -3,7 +3,7 @@
 script_name("Justice Helper")
 script_description('This is a Cross-platform Lua script helper for Arizona RP players who work in the Ministry of Justice (PD and FBI) ??and the Ministry of Defense (Army)')
 script_author("Varionov")
-script_version("Rebuild Free 1.1")
+script_version("Rebuild Free 1.1(fix)")
 
 require('lib.moonloader')
 require('encoding').default = 'CP1251'
@@ -3230,6 +3230,29 @@ function sampev.onServerMessage(color,text)
 		end)		
 	end
 end
+if (text:find('Angel_Grimes%[%d+%]') and getARZServerNumber():find('20')) or text:find('%[20%]Angel_Grimes') then
+	local lastColor = text:match("(.+){%x+}$")
+	   if not lastColor then
+		lastColor = "{" .. rgba_to_hex(color) .. "}"
+	end
+	if text:find('%[VIP ADV%]') or text:find('%[FOREVER%]') then
+		lastColor = "{FFFFFF}"
+	end
+	if text:find('%[30%]Angel_Grimes%[%d+%]') then
+		local id = text:match('%[20%]Angel_Grimes%[(%d+)%]') or ''
+		text = string.gsub(text, '%[20%]Angel_Grimes%[%d+%]', message_color_hex .. '[30]Varionov (Повелитель)[' .. id .. ']' .. lastColor)
+	
+	elseif text:find('%[30%]Angel_Grimes') then
+		text = string.gsub(text, '%[20%]Angel_Grimes', message_color_hex .. '[30]Varionov (Повелитель)' .. lastColor)
+	
+	elseif text:find('Angel_Grimes%[%d+%]') then
+		local id = text:match('Angel_Grimes%[(%d+)%]') or ''
+		text = string.gsub(text, 'Angel_Grimes%[%d+%]', message_color_hex .. 'Varionov (Повелитель)[' .. id .. ']' .. lastColor)
+	elseif text:find('Angel_Grimes') then
+		text = string.gsub(text, 'Angel_Grimes', message_color_hex .. 'Varionov (Повелитель)' .. lastColor)
+	end
+	return {color,text}
+end
 
 function sampev.onSendChat(text)
     if debug_mode then
@@ -6193,20 +6216,24 @@ imgui.OnFrame(
 					sampSendChat("/n Обязательно с RP отыгровками!")
 				end)
 			end
-			if imgui.Button(fa.USER .. u8" Расскажите о себе", imgui.ImVec2(-1, 25 * settings.general.custom_dpi)) then
-				sampSendChat("Расскажите с какой целью Вы пришли к нам в армию?.")
-				wait(2000)
-				sampSendChat("Ради получения военного билета, либо Вы хотите продвигаться по карьерной лестнице?")
-			end
+			if imgui.Button(fa.USER .. u8" Расскажите цель вступления", imgui.ImVec2(-1, 25 * settings.general.custom_dpi)) then
+					lua_thread.create(function()
+					sampSendChat("Расскажите с какой целью Вы пришли к нам в армию?")
+					wait(2000)
+					sampSendChat("Ради получения военного билета, либо Вы хотите продвигаться по карьерной лестнице?")
+				end)	
+			end	
 			
 			if imgui.Button(fa.CHECK .. u8" Чем занимается армия?", imgui.ImVec2(-1, 25 * settings.general.custom_dpi)) then
-				sampSendChat("Как Вы думаете, чем занимается наша армия? Опишите подробно")
+				sampSendChat("Как Вы думаете, чем занимается наша армия?")
 			end
 			if imgui.Button(fa.USER_PLUS .. u8" Пригласить в организацию", imgui.ImVec2(-1, 25 * settings.general.custom_dpi)) then
-				sampSendChat("/todo Поздравляю! Вы успешно прошли собеседование!*улыбаясь")
-				wait(2000)
-				find_and_use_command('/invite {arg_id}', player_id)
-				SobesMenu[0] = false
+					lua_thread.create(function()
+					sampSendChat("/todo Поздравляю! Вы успешно прошли собеседование!*улыбаясь")
+					wait(2000)
+					find_and_use_command('/invite {arg_id}', player_id)
+					SobesMenu[0] = false
+				end)
 			end
 			imgui.EndChild()
 			end
