@@ -1,5 +1,5 @@
 {
-  "current_version": "Rebuild Free 1.0",
+  "current_version": "Rebuild Free 1.1",
   "update_url": "https://github.com/varionov/Justice-Helper-Rebuild/raw/refs/heads/main/Justice%20Helper.lua",
-  "update_info": "- Обновлена система RP отыгровок оружия (Добавлена полуавтоматическая функция)\n- Обновлена система РП чата\n- Исправлены многочисленные ошибки"
+  "update_info": "- Обновлена система собеседований.\n-Маленький баг фикс (такой же маленький как писька у Joseph Grimes)"
 }

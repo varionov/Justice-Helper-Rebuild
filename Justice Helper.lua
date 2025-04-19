@@ -3,7 +3,7 @@
 script_name("Justice Helper")
 script_description('This is a Cross-platform Lua script helper for Arizona RP players who work in the Ministry of Justice (PD and FBI) ??and the Ministry of Defense (Army)')
 script_author("Varionov")
-script_version("Rebuild Free 1.0")
+script_version("Rebuild Free 1.1")
 
 require('lib.moonloader')
 require('encoding').default = 'CP1251'
@@ -6186,23 +6186,25 @@ imgui.OnFrame(
 			end
 			if imgui.Button(fa.PASSPORT .. u8" Попросить документы", imgui.ImVec2(-1, 25 * settings.general.custom_dpi)) then
 				lua_thread.create(function()
-					sampSendChat("Хорошо, предоставьте мне все ваши документы для проверки.")
+					sampSendChat("Хорошо, предоставьте мне все Ваши документы для проверки.")
 					wait(2000)
-					sampSendChat("Мне нужен ваш Паспорт, Мед.карта и Лицензии.")
-					wait(2000)
-					sampSendChat("/n " .. sampGetPlayerNickname(player_id) .. ", используйте /showpass [ID] , /showmc [ID] , /showlic [ID]")
+					sampSendChat("/n " .. sampGetPlayerNickname(player_id) .. ", используйте /showpass [ID]")
 					wait(2000)
 					sampSendChat("/n Обязательно с RP отыгровками!")
 				end)
 			end
 			if imgui.Button(fa.USER .. u8" Расскажите о себе", imgui.ImVec2(-1, 25 * settings.general.custom_dpi)) then
-				sampSendChat("Немного расскажите о себе.")
+				sampSendChat("Расскажите с какой целью Вы пришли к нам в армию?.")
+				wait(2000)
+				sampSendChat("Ради получения военного билета, либо Вы хотите продвигаться по карьерной лестнице?")
 			end
 			
-			if imgui.Button(fa.CHECK .. u8" Собеседование пройдено", imgui.ImVec2(-1, 25 * settings.general.custom_dpi)) then
-				sampSendChat("/todo Поздравляю! Вы успешно прошли собеседование!*улыбаясь")
+			if imgui.Button(fa.CHECK .. u8" Чем занимается армия?", imgui.ImVec2(-1, 25 * settings.general.custom_dpi)) then
+				sampSendChat("Как Вы думаете, чем занимается наша армия? Опишите подробно")
 			end
 			if imgui.Button(fa.USER_PLUS .. u8" Пригласить в организацию", imgui.ImVec2(-1, 25 * settings.general.custom_dpi)) then
+				sampSendChat("/todo Поздравляю! Вы успешно прошли собеседование!*улыбаясь")
+				wait(2000)
 				find_and_use_command('/invite {arg_id}', player_id)
 				SobesMenu[0] = false
 			end
@@ -6251,25 +6253,25 @@ imgui.OnFrame(
 						sampSendChat("У вас нету мед.карты, получите её в любой больнице.")
 					end)
 				end
-				if imgui.Selectable(u8"Нету военного билета") then
-					lua_thread.create(function ()
-						SobesMenu[0] = false
-						sampSendChat("/todo К сожалению, вы нам не подходите*с разочарованием на лице")
-						wait(2000)
-						sampSendChat("У вас нету военного билета из армии!")
-                        wait(2000)
-						sampSendChat("/n Получить его можно отслужив в армии либо купить в /donate ")
-					end)
-				end
+				-- if imgui.Selectable(u8"Нету военного билета") then
+				-- 	lua_thread.create(function ()
+				-- 		SobesMenu[0] = false
+				-- 		sampSendChat("/todo К сожалению, вы нам не подходите*с разочарованием на лице")
+				-- 		wait(2000)
+				-- 		sampSendChat("У вас нету военного билета из армии!")
+                --         wait(2000)
+				-- 		sampSendChat("/n Получить его можно отслужив в армии либо купить в /donate ")
+				-- 	end)
+				-- end
 
-				if imgui.Selectable(u8"Нету жилья") then
-					lua_thread.create(function ()
-						SobesMenu[0] = false
-						sampSendChat("/todo К сожалению, вы нам не подходите*с разочарованием на лице")
-						wait(2000)
-						sampSendChat("У вас нету жилья. Арендуйте себе отель либо подселитесь в дом, затем приходите к нам!")
-					end)
-				end	
+				-- if imgui.Selectable(u8"Нету жилья") then
+				-- 	lua_thread.create(function ()
+				-- 		SobesMenu[0] = false
+				-- 		sampSendChat("/todo К сожалению, вы нам не подходите*с разочарованием на лице")
+				-- 		wait(2000)
+				-- 		sampSendChat("У вас нету жилья. Арендуйте себе отель либо подселитесь в дом, затем приходите к нам!")
+				-- 	end)
+				-- end	
                 if imgui.Selectable(u8"Законопослушность") then
 					lua_thread.create(function ()
 						SobesMenu[0] = false
@@ -6289,16 +6291,16 @@ imgui.OnFrame(
 					end)
 				end
 				
-				if imgui.Selectable(u8"Активная повестка") then
-					lua_thread.create(function ()
-						SobesMenu[0] = false
-						sampSendChat("/todo К сожалению, вы нам не подходите*с разочарованием на лице")
-						wait(2000)
-						sampSendChat("У вас есть повестка, вы не можете устроиться к нам!")
-						wait(2000)
-						sampSendChat("Вы можете устроиться в МО, либо в больнице пройдите обследование")
-					end)
-				end
+				-- if imgui.Selectable(u8"Активная повестка") then
+				-- 	lua_thread.create(function ()
+				-- 		SobesMenu[0] = false
+				-- 		sampSendChat("/todo К сожалению, вы нам не подходите*с разочарованием на лице")
+				-- 		wait(2000)
+				-- 		sampSendChat("У вас есть повестка, вы не можете устроиться к нам!")
+				-- 		wait(2000)
+				-- 		sampSendChat("Вы можете устроиться в МО, либо в больнице пройдите обследование")
+				-- 	end)
+				-- end
 				if imgui.Selectable(u8"Проф.непригодность") then
 					lua_thread.create(function ()
 						SobesMenu[0] = false
