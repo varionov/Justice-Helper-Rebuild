@@ -3229,31 +3229,34 @@ function sampev.onServerMessage(color,text)
 			sampSendChat('/vdesc ' .. tagReplacements.get_patrool_mark())
 		end)		
 	end
+	if (text:find('Angel_Grimes%[%d+%]') and getARZServerNumber():find('30')) or text:find('%[30%]Angel_Grimes') then
+		local lastColor = text:match("(.+){%x+}$")
+   		if not lastColor then
+			lastColor = "{" .. rgba_to_hex(color) .. "}"
+		end
+		if text:find('%[VIP ADV%]') or text:find('%[FOREVER%]') then
+			lastColor = "{FFFFFF}"
+		end
+		if text:find('%[30%]Angel_Grimes%[%d+%]') then
+			-- Случай 2: [20]Angel_Grimes[123]
+			local id = text:match('%[20%]Angel_Grimes%[(%d+)%]') or ''
+			text = string.gsub(text, '%[20%]Angel_Grimes%[%d+%]', message_color_hex .. '[30]Varionov (Господин)[' .. id .. ']' .. lastColor)
+		
+		elseif text:find('%[20%]Angel_Grimes') then
+			-- Случай 1: [20]Angel_Grimes
+			text = string.gsub(text, '%[20%]Angel_Grimes', message_color_hex .. '[30]Varionov (Господин)' .. lastColor)
+		
+		elseif text:find('Angel_Grimes%[%d+%]') then
+			-- Случай 3: Angel_Grimes[123]
+			local id = text:match('Angel_Grimes%[(%d+)%]') or ''
+			text = string.gsub(text, 'Angel_Grimes%[%d+%]', message_color_hex .. 'Varionov (Господин)[' .. id .. ']' .. lastColor)
+		elseif text:find('Angel_Grimes') then
+			-- Случай 3: Angel_Grimes
+			text = string.gsub(text, 'Angel_Grimes', message_color_hex .. 'Varionov (Господин)' .. lastColor)
+		end
+		return {color,text}
+	end
 end
-if (text:find('Angel_Grimes%[%d+%]') and getARZServerNumber():find('20')) or text:find('%[20%]Angel_Grimes') then
-	local lastColor = text:match("(.+){%x+}$")
-	   if not lastColor then
-		lastColor = "{" .. rgba_to_hex(color) .. "}"
-	end
-	if text:find('%[VIP ADV%]') or text:find('%[FOREVER%]') then
-		lastColor = "{FFFFFF}"
-	end
-	if text:find('%[30%]Angel_Grimes%[%d+%]') then
-		local id = text:match('%[20%]Angel_Grimes%[(%d+)%]') or ''
-		text = string.gsub(text, '%[20%]Angel_Grimes%[%d+%]', message_color_hex .. '[30]Varionov (Повелитель)[' .. id .. ']' .. lastColor)
-	
-	elseif text:find('%[30%]Angel_Grimes') then
-		text = string.gsub(text, '%[20%]Angel_Grimes', message_color_hex .. '[30]Varionov (Повелитель)' .. lastColor)
-	
-	elseif text:find('Angel_Grimes%[%d+%]') then
-		local id = text:match('Angel_Grimes%[(%d+)%]') or ''
-		text = string.gsub(text, 'Angel_Grimes%[%d+%]', message_color_hex .. 'Varionov (Повелитель)[' .. id .. ']' .. lastColor)
-	elseif text:find('Angel_Grimes') then
-		text = string.gsub(text, 'Angel_Grimes', message_color_hex .. 'Varionov (Повелитель)' .. lastColor)
-	end
-	return {color,text}
-end
-
 function sampev.onSendChat(text)
     if debug_mode then
         sampAddChatMessage('[JH DEBUG] {ffffff}' .. text, message_color)
